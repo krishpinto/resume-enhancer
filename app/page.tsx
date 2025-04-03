@@ -14,10 +14,11 @@ const Page: React.FC = () => {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    setFileName(file.name); // Display the uploaded file name
+    setFileName(file.name);
     setLoading(true);
 
     try {
+      // Step 1: Extract content using GoogleGenAI
       const fileData = await file.arrayBuffer();
       const base64Data = btoa(String.fromCharCode(...new Uint8Array(fileData)));
 
@@ -26,7 +27,61 @@ const Page: React.FC = () => {
       });
 
       const contents = [
-        { text: "Give me all the contents of this document" },
+        {
+          text: `Extract the following details from the document in a structured JSON format. Ensure all fields are included, even if they are empty:
+
+{
+  "contact": {
+    "fullName": "",
+    "phoneNumber": "",
+    "email": "",
+    "linkedIn": "",
+    "github": "",
+    "portfolio": ""
+  },
+  "summary": "",
+  "workExperience": [
+    {
+      "title": "",
+      "company": "",
+      "location": "",
+      "startDate": "",
+      "endDate": "",
+      "achievements": ["", "", ""]
+    }
+  ],
+  "skills": ["", "", ""],
+  "education": [
+    {
+      "degree": "",
+      "institution": "",
+      "location": "",
+      "startDate": "",
+      "endDate": ""
+    }
+  ],
+  "certifications": [
+    {
+      "name": "",
+      "organization": "",
+      "year": ""
+    }
+  ],
+  "projects": [
+    {
+      "name": "",
+      "description": "",
+      "achievements": ["", ""]
+    }
+  ],
+  "additionalInfo": {
+    "languages": ["", ""],
+    "volunteerExperience": "",
+    "publications": ""
+  }
+}
+`,
+        },
         {
           inlineData: {
             mimeType: file.type,
@@ -40,9 +95,48 @@ const Page: React.FC = () => {
         contents: contents,
       });
 
-      setResponseText(response.text || "");
+      // Debugging: Log the raw response
+      console.log("Raw Response:", response);
+
+      // Step 2: Validate and sanitize the response
+      let extractedContent;
+      try {
+        // Check if the response contains valid JSON
+        const rawText = response.text || "";
+        console.log("Raw Text:", rawText);
+
+        // Remove any non-JSON content (e.g., backticks, markdown)
+        const sanitizedText = rawText.trim().replace(/```json|```/g, "");
+        console.log("Sanitized Text:", sanitizedText);
+
+        // Parse the sanitized JSON
+        extractedContent = JSON.parse(sanitizedText);
+      } catch (parseError) {
+        console.error("Error parsing JSON:", parseError);
+        throw new Error("Invalid JSON response from the AI model.");
+      }
+
+      // Debugging: Log the extracted content
+      console.log("Extracted Content:", extractedContent);
+
+      // Step 3: Format the extracted content into the resume template
+      const formatResponse = await fetch("/api/formatResume", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ extractedContent }),
+      });
+
+      if (!formatResponse.ok) {
+        throw new Error("Failed to format resume");
+      }
+
+      const { formattedResume } = await formatResponse.json();
+
+      // Step 4: Update the state with the formatted resume
+      setResponseText(formattedResume);
     } catch (error) {
-      console.error("Error generating content:", error);
+      console.error("Error processing the file:", error);
+      setResponseText("An error occurred while processing the file.");
     } finally {
       setLoading(false);
     }
@@ -77,7 +171,9 @@ const Page: React.FC = () => {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <p>{responseText || "Upload a file to get started."}</p>
+        <pre style={{ whiteSpace: "pre-wrap" }}>
+          {responseText || "Upload a file to get started."}
+        </pre>
       )}
     </div>
   );
