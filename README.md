@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 AI-Powered Resume Builder
 
-## Getting Started
+This is my **biggest project yet** – a modern, full-featured resume builder that leverages **generative AI** to help users create and optimize their resumes for better ATS (Applicant Tracking System) scores and career growth.
 
-First, run the development server:
+## 🌟 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### ✅ Live (Free) Features
+- **AI Resume Enhancer**  
+  Upload your existing resume (PDF) and get an AI-generated, structured version in a cleaner format.
+  
+- **Resume Score Booster**  
+  Improve your resume’s ATS score with smart recommendations and formatting.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### ✨ Premium (Planned) Features
+- **Resume Templates**  
+  Professionally designed templates to give your resume a fresh look.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Live ATS Score Checker**  
+  Get real-time feedback on how well your resume performs with ATS.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Job Matching Engine**  
+  Get matched with relevant job listings based on your resume content.
 
-## Learn More
+- **AI Cover Letter Generator**  
+  Generate tailored cover letters instantly with AI.
 
-To learn more about Next.js, take a look at the following resources:
+- **Cloud Resume Storage**  
+  Secure and access your resumes anytime through your personal dashboard.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **AI Interview Tips & Feedback**  
+  Personalized interview tips based on your resume and job roles.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Typing Test & Certification**  
+  Optional speed typing test with result sharing and downloadable certificates.
 
-## Deploy on Vercel
+## 📄 Pages Overview
+- `/` – Landing Page  
+- `/pricing` – Feature comparison and premium plan info  
+- `/dashboard` – View and manage all your resumes  
+- `/resume-builder` – Create a resume from scratch  
+- `/resume-enhancer` – Upload and enhance existing resumes
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🧠 Why I Built This
+I wanted to combine my passion for generative AI and practical tools into one impactful product that helps others. This project represents everything I've learned so far and is the cornerstone of many future AI tools I plan to build.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+🔨 Still in development – exciting updates coming soon!
